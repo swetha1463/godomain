@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoDomain</title>
+</head>
+<body>
+    <h1>Domain Intelligence Tool</h1>
+    <input type="text" id="domain" placeholder="Enter a domain">
+    <button onclick="fetchDomainInfo()">Check Domain</button>
+    <div id="result"></div>
+
+    <script>
+        async function fetchDomainInfo() {
+            const domain = document.getElementById('domain').value;
+            const response = await fetch('http://127.0.0.1:5000/api/domain-info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ domain }),
+            });
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `
+                <h2>WHOIS Info:</h2>
+                <pre>${data.whois}</pre>
+                <h2>IP Addresses:</h2>
+                <pre>${data.ip_addresses}</pre>
+            `;
+        }
+    </script>
+</body>
+</html>
